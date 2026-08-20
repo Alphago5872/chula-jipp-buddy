@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Spoiler</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #202225; color: #fff; margin: 0; }
+        .card { text-align: center; padding: 20px; }
+        .spoiler { background-color: #2f3136; color: #2f3136; padding: 14px 24px; border-radius: 6px; cursor: pointer; display: inline-block; transition: 0.2s; user-select: none; font-size: 16px; }
+        .spoiler.revealed { background-color: #4f545c; color: #fff; cursor: default; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h3>Your Secret Message</h3>
+        <div id="spoilerBox" class="spoiler" onclick="revealSpoiler()">
+            Click to reveal your spoiler
+        </div>
+    </div>
+
+    <script>
+        let decodedMessage = "No spoiler found.";
+        const urlParams = new URLSearchParams(window.location.search);
+        const encodedParam = urlParams.get('s');
+
+        if (encodedParam) {
+            try {
+                // Restore URL-safe characters back to standard base64
+                let base64Str = encodedParam.replace(/-/g, '+').replace(/_/g, '/');
+                while (base64Str.length % 4) { base64Str += '='; }
+                
+                const binaryString = atob(base64Str);
+                const bytes = new Uint8Array(binaryString.length);
+                for (let i = 0; i < binaryString.length; i++) {
+                    bytes[i] = binaryString.charCodeAt(i);
+                }
+                decodedMessage = new TextDecoder().decode(bytes);
+            } catch (e) {
+                decodedMessage = "Error decoding spoiler data.";
+            }
+        }
+
+        function revealSpoiler() {
+            const box = document.getElementById('spoilerBox');
+            box.innerText = decodedMessage;
+            box.classList.add('revealed');
+            box.onclick = null; // Disable further clicks
+        }
+    </script>
+</body>
+</html>
