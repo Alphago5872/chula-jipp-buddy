@@ -13,14 +13,14 @@
 </head>
 <body>
     <div class="card">
-        <h3>Your Destiny 🍆💦💦</h3>
+        <h3>Your Buddy's Name (Make sure only YOU know it!)</h3>
         <div id="spoilerBox" class="spoiler" onclick="revealSpoiler()">
-            Click to reveal your spoiler
+            Click to reveal your buddy
         </div>
     </div>
 
     <script>
-        let decodedMessage = "No spoiler found.";
+        let decodedMessage = "No buddy found. Please contact the sender for the correct link.";
         const urlParams = new URLSearchParams(window.location.search);
         const encodedParam = urlParams.get('s');
 
@@ -37,7 +37,7 @@
                 }
                 decodedMessage = new TextDecoder().decode(bytes);
             } catch (e) {
-                decodedMessage = "Error decoding spoiler data.";
+                decodedMessage = "Error decoding buddy data. Please contact the sender for the correct link.";
             }
         }
 
